@@ -1,0 +1,62 @@
+# =========================
+# C# / .NET
+# =========================
+# Pastas de build
+bin/
+obj/
+
+# Pacotes NuGet
+*.nupkg
+*.snupkg
+
+# Arquivos temporários / logs
+*.log
+*.tmp
+
+# Configurações do usuário / IDE
+*.user
+*.suo
+*.userosscache
+*.vs/
+.vscode/
+
+# Arquivos de depuração
+*.pdb
+*.exe
+*.dll
+*.cache
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.idb
+*.class
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.opendb
+
+# =========================
+# HTML / JS / Web
+# =========================
+# Dependências Node.js
+node_modules/
+
+# Logs e temporários web
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+*.swp
+
+# Build de frontend
+dist/
+build/
+
+# Outros arquivos de editor
+.idea/
+.DS_Store
+*.bak
+*.old
+*.orig
