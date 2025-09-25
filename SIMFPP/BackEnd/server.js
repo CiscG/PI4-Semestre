@@ -14,13 +14,15 @@ const database = new DatabaseMemory()
 //Route Parameter
 
 
-server.post('/videos', () =>{
+server.post('/videos', (request, reply) =>{
    database.create({
       title: 'Video 01',
       description: 'Esse é o video 01',
       duration: 180,
    })
    console.log(database.list())
+   
+   return reply.status(201).send()
 })
 
 server.get('/videos', () =>{
