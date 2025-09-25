@@ -11,3 +11,7 @@ server.get('/hello', () => {
 server.get('/node', () => {
    return 'Hello Node.js'
 })
+
+server.listen({
+   port:3333,
+})
