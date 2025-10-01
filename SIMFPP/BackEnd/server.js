@@ -1,7 +1,6 @@
 import { fastify } from 'fastify'
 import { DatabaseMemory } from './databese-memory.js'
 
-
 const server = fastify()
 
 const database = new DatabaseMemory()
