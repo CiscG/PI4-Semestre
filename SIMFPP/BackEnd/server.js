@@ -38,11 +38,28 @@ server.get('/videos', (request, reply) =>{
    //return 'Hello Rocketseat'
 })
 
-server.put('/videos/:id', () => {
-   return 'Hello Node.js'
+server.put('/videos/:id', (request, reply) => {
+   const videoId = request.params.id
+   const { title, description, duration } = request.body
+
+   database.update(videoId,{
+      title,
+      description,
+      duration,
+   })
+   
+   return reply.status(204).send()
+
+   //return 'Hello Node.js'
 })
-server.delete('/videos/:id', () => {
-   return 'Hello Node.js'
+server.delete('/videos/:id', (request, reply) => {
+   const videoId = request.params.id
+   
+   database.delete(videoId)
+
+   return reply.status(204).send()
+   
+   //return 'Hello Node.js'
 })
 
 server.get('/', () => {

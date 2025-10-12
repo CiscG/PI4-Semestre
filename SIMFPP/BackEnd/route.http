@@ -3,7 +3,7 @@ Content-Type: application/json
 
 
 {
-    "tittle": "Video 01",
+    "title": "Video 01",
     "description": "Esse é o primeiro video",
     "duration": 180
 }
@@ -12,3 +12,21 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3333/videos
+
+
+###
+
+PUT http://localhost:3333/videos/ad870d1c-c839-4973-8ed8-e436ac1cd9d5
+Content-Type: application/json
+
+
+{
+    "title": "Video 02",
+    "description": "Esse é o primeiro video",
+    "duration": 180
+}
+
+
+###
+
+DELETE http://localhost:3333/videos/
