@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "fastify": "^5.6.1"
+  },
+  "name": "pi4-semestre",
+  "version": "1.0.0",
+  "description": "Projeto de teste que simula um sensor com **C#** e exibe/controla os dados via **HTML/JS**.   Funciona no **Acode/Termux** em Android e pode ser acessado em outros dispositivos na mesma rede.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://CiscG: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@github.com/CIscG/PI4-Semestre.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CIscG/PI4-Semestre/issues"
+  },
+  "homepage": "https://github.com/CIscG/PI4-Semestre#readme"
+}
