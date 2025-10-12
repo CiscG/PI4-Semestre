@@ -6,7 +6,7 @@ export class DatabaseMemory{
    //Set, Map
    
    list(){
-      return this.#videos.values()
+      return Array.from(this.#videos.values())
    }
    
    create(video){
@@ -18,7 +18,7 @@ export class DatabaseMemory{
    update(id, video){
       this.#videos.set(id, video)
    }
-   
+
    delete(id){
       this.#videos.delete(id)
    }

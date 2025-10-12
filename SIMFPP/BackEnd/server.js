@@ -14,18 +14,28 @@ const database = new DatabaseMemory()
 
 
 server.post('/videos', (request, reply) =>{
+   const { title, description, duration } = request.body
+
+   //console.log(body)
+
    database.create({
-      title: 'Video 01',
-      description: 'Esse é o video 01',
-      duration: 180,
+      title,
+      description,
+      duration,
    })
    console.log(database.list())
    
    return reply.status(201).send()
 })
 
-server.get('/videos', () =>{
-   return 'Hello Rocketseat'
+server.get('/videos', (request, reply) =>{
+   const videos = database.list()
+
+   console.log(videos)
+   
+   return videos
+   
+   //return 'Hello Rocketseat'
 })
 
 server.put('/videos/:id', () => {
