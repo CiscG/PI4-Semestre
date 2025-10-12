@@ -14,9 +14,11 @@ export class DatabaseMemory{
       
       this.#videos.set(videoId, video)
    }
+
    update(id, video){
       this.#videos.set(id, video)
    }
+   
    delete(id){
       this.#videos.delete(id)
    }
