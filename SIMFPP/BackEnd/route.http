@@ -15,18 +15,41 @@ GET http://localhost:3333/videos
 
 
 ###
-
-PUT http://localhost:3333/videos/ad870d1c-c839-4973-8ed8-e436ac1cd9d5
+PUT http://localhost:3333/videos/a4a5d0bc-317e-42e2-bc65-bdafc313bc69
 Content-Type: application/json
 
 
 {
     "title": "Video 02",
-    "description": "Esse é o primeiro video",
+    "description": "Esse é o segundo video",
     "duration": 180
 }
 
 
 ###
+PUT http://localhost:3333/videos/f6346064-87ee-4bfb-9a74-c2b7a3eee018
+Content-Type: application/json
 
-DELETE http://localhost:3333/videos/
+
+{
+    "title": "Video 03",
+    "description": "Esse é o terceiro video",
+    "duration": 180
+}
+
+###
+PUT http://localhost:3333/videos/1d9c6729-6fe7-4d95-809e-c543592165df
+Content-Type: application/json
+
+
+{
+    "title": "Video 04",
+    "description": "Esse é o quarto video",
+    "duration": 180
+}
+
+
+
+###
+
+DELETE http://localhost:3333/videos/81e83e8a-c7cd-4880-8a2e-5b14012168d3
