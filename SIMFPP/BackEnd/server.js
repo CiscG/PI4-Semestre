@@ -117,5 +117,32 @@ app.post('/data', (req, res) => {
    if (!payload || !payload.id || payload.dados || typeof payload.dados.peso === 'undefined' || !payload.dados.horario){
       return res.status(400).json({error: 'Payload invalido. Esperando: {id, dados: { peso, horario } }'});
    }
-   
-})
+// tenta normalizar horario (mantemos como string recebido, mas adicionamos timestamp servidor)
+const item = {
+id: payload.id,
+dados: {
+peso: Number(payload.dados.peso),
+horario: String(payload.dados.horario)
+},
+received_at: new Date().toISOString()
+};
+
+
+DB.readings.push(item);
+if (DB.readings.length > MAX_HISTORY) DB.readings = DB.readings.slice(-MAX_HISTORY);
+
+
+persistDB();
+
+
+return res.json({ status: 'ok' });
+});
+
+//GET /all -> histórico completo
+app.get('/all', (req, res) => {
+   res.json({ readings: DB.readings });
+});
+
+app.listen(PORT, () => {
+   console.log('Server rodando em http://0.0.0.0:${PORT}');
+});
