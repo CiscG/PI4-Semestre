@@ -1,5 +1,6 @@
 const PERFIL_KEY = 'simAppGatoPerfil';
 const REGISTROS_COMIDA_KEY = 'simAppRegistrosComida';
+const API_BASE = "http://127.0.0.1:8000/api";
 
 const formPerfil = document.getElementById('form-perfil');
 const perfilDisplay = document.getElementById('perfil-display');
@@ -98,7 +99,7 @@ formRegistroComida.addEventListener('submit', (e) => {
     const quantidade = parseInt(quantidadeInput.value, 10);
     const descricao = descricaoInput.value || 'Não informado';
 
-    if (quantidade <= 0) {
+    if (quantidade <= 0 || isNaN(quantidade)) {
         showStatus('🚨 Por favor, insira uma quantidade válida.', 'error');
         return;
     }
@@ -113,16 +114,44 @@ formRegistroComida.addEventListener('submit', (e) => {
         timestamp: timestamp
     };
 
+    // --- SALVA LOCALMENTE (como antes) ---
     let registros = getLocalData(REGISTROS_COMIDA_KEY);
     registros.push(novoRegistro);
     saveLocalData(REGISTROS_COMIDA_KEY, registros);
 
-    showStatus(`Registrado! +${quantidade}g`);
+    // --- ENVIA AO BACKEND (POST /api/weight) ---
+    // Nota: certifique-se de ter definido API_BASE no topo do arquivo.
+    fetch(`${API_BASE}/weight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            grams: quantidade,
+            timestamp: timestamp
+        })
+    })
+    .then(async (res) => {
+        if (!res.ok) {
+            // tenta ler corpo do erro para diagnóstico
+            const text = await res.text().catch(() => '');
+            throw new Error(`HTTP ${res.status} ${text}`);
+        }
+        return res.json();
+    })
+    .then((resp) => {
+        console.log('Enviado ao backend:', resp);
+        showStatus(`Registrado localmente e enviado ao backend: +${quantidade}g`);
+    })
+    .catch((err) => {
+        console.error('Erro ao enviar ao backend:', err);
+        showStatus('Registrado localmente — falha ao enviar ao backend', 'error');
+    });
+
+    // limpa campos e atualiza UI
     quantidadeInput.value = '';
     descricaoInput.value = '';
-    
     renderizarHistorico();
 });
+
 
 function renderizarGraficoFicticio() {
     
@@ -218,4 +247,63 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarGraficoFicticio();
     renderizarHistorico();
     preencherDataHoraAtual();
+
+    const API_BASE = "http://127.0.0.1:8000/api";
+
+    async function carregarDoBackend() {
+        try {
+            const res = await fetch(`${API_BASE}/readings`);
+            if (!res.ok) throw new Error("Erro ao buscar leituras");
+            const dados = await res.json();
+
+            // Atualiza histórico no DOM
+            historicoLista.innerHTML = "";
+            if (!Array.isArray(dados) || dados.length === 0) {
+                historicoLista.innerHTML = '<li>Nenhuma refeição registrada ainda.</li>';
+            } else {
+                // ordenar decrescente
+                const ordenado = dados.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+                ordenado.forEach(reg => {
+                    const dataFormatada = new Intl.DateTimeFormat('pt-BR', { 
+                        day: '2-digit', month: '2-digit', year: 'numeric' 
+                    }).format(new Date(reg.timestamp));
+                    const itemLista = document.createElement('li');
+                    itemLista.innerHTML = `
+                        <div class="linha-principal">
+                            <span><strong>${dataFormatada}</strong> às ${new Date(reg.timestamp).toTimeString().substring(0,5)}</span>
+                            <span>${reg.grams}g</span>
+                        </div>
+                    `;
+                    historicoLista.appendChild(itemLista);
+                });
+            }
+
+            // Atualiza gráfico com os últimos N pontos
+            const pontos = dados.slice(-20); // últimos 20
+            const labels = pontos.map(p => new Date(p.timestamp).toLocaleString('pt-BR'));
+            const valores = pontos.map(p => p.grams);
+
+            if (monitoramentoChart) monitoramentoChart.destroy();
+            const ctx = chartCanvas.getContext('2d');
+            monitoramentoChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Peso (g)', data: valores, borderColor: '#5d4037', tension: 0.2 }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+
+        } catch (err) {
+            console.error("Erro ao carregar do backend:", err);
+            // fallback: seu gráfico fictício
+            renderizarGraficoFicticio();
+            renderizarHistorico();
+        }
+    }
+
+    // Dentro do DOMContentLoaded, chame:
+    carregarDoBackend();
+    setInterval(carregarDoBackend, 10000); // atualiza a cada 10s
+
 });
