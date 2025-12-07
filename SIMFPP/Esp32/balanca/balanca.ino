@@ -12,11 +12,11 @@ const char* password = "vila3540";
 const char* serverName = "http://192.168.0.112:3000/api/weight";
 
 // PINOS HX711
-#define DOUT  18
-#define CLK   19
+#define DOUT  19
+#define CLK   18
 
 // FATOR DE CALIBRAÇÃO (ajuste conforme sua balança)
-#define FATOR_CALIBRACAO  2280.0
+#define FATOR_CALIBRACAO  -2280.0
 
 // ================= OBJETOS =================
 
