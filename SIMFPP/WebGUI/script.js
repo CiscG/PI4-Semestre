@@ -1,6 +1,6 @@
 const PERFIL_KEY = 'simAppGatoPerfil';
 const REGISTROS_COMIDA_KEY = 'simAppRegistrosComida';
-const API_BASE = "http://127.0.0.1:8000/api";
+const API_BASE = "http://127.0.0.1:3000/api";
 
 const formPerfil = document.getElementById('form-perfil');
 const perfilDisplay = document.getElementById('perfil-display');
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarHistorico();
     preencherDataHoraAtual();
 
-    const API_BASE = "http://127.0.0.1:8000/api";
+    const API_BASE = "http://127.0.0.1:3000/api";
 
     async function carregarDoBackend() {
         try {
