@@ -1,9 +1,0 @@
-CREATE DATABASE simfpp;
-USE simfpp;
-
-CREATE TABLE readings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    grams FLOAT NOT NULL,
-    timestamp DATETIME NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
