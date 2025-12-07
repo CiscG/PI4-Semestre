@@ -1,3 +1,5 @@
+# uvicorn backendfastapi:app --host 0.0.0.0 --port 3000
+# python3 -m http.server 5500
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
